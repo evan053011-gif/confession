@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>給你一個小東西 👀</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:radial-gradient(circle at 50% 20%,#fff8fb 0,#ffe8f0 42%,#ffcbdc 100%);
+    color:#5b3041; display:flex; align-items:center; justify-content:center;
+  }
+  .bg-heart{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+  .bg-heart span{
+    position:absolute;bottom:-40px;font-size:22px;opacity:.65;
+    animation:float 7s linear infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(0) rotate(0);opacity:0}
+    15%{opacity:.7} 100%{transform:translateY(-115vh) rotate(25deg);opacity:0}
+  }
+  .card{
+    width:min(90%,520px); padding:38px 28px 34px; text-align:center;
+    background:rgba(255,255,255,.82); backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.9); border-radius:30px;
+    box-shadow:0 18px 60px rgba(155,70,103,.2);
+    position:relative; z-index:2;
+  }
+  .heart{font-size:64px;animation:pulse 1.5s infinite}
+  @keyframes pulse{50%{transform:scale(1.12)}}
+  h1{font-size:30px;margin:10px 0 12px}
+  p{font-size:17px;line-height:1.9;margin:10px 0}
+  .small{font-size:14px;opacity:.65}
+  button{
+    border:0;border-radius:999px;padding:13px 25px;margin:10px 6px;
+    font-size:16px;font-weight:700;cursor:pointer;transition:.2s;
+    background:#ff6f9f;color:white;box-shadow:0 8px 18px rgba(255,111,159,.3);
+  }
+  button:hover{transform:translateY(-2px) scale(1.03)}
+  .secondary{background:#fff;color:#c94f78;border:1px solid #ffc1d4;box-shadow:none}
+  .hidden{display:none}
+  .message{animation:appear .7s ease}
+  @keyframes appear{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+  .choices{margin-top:18px}
+  #no{position:relative}
+  .footer{margin-top:20px;font-size:12px;opacity:.5}
+</style>
+</head>
+<body>
+<div class="bg-heart" id="hearts"></div>
+
+<main class="card">
+  <section id="start">
+    <div class="heart">🎁</div>
+    <h1>張礫昀，給你一個小東西</h1>
+    <p>沒什麼特別的啦 😂<br>就想叫你點進來看看而已。</p>
+    <button onclick="showLove()">開始</button>
+    <div class="footer">放心，先沒有奇怪的東西 👀</div>
+  </section>
+
+  <section id="love" class="hidden message">
+    <div class="heart">💌</div>
+    <h1>先問你一個問題 👀</h1>
+    <p>
+      你有沒有發現，<br>
+      有時候我好像會特別注意你？<br><br>
+      其實……這不是沒有原因的。
+    </p>
+    <p><strong>再點一下，你就知道了。</strong></p>
+    <h1>答案就是……</h1>
+    <p>我發現自己會不自覺地注意你，<br>看到你的訊息會開心，<br>也會期待下一次見到你。</p>
+    <h1>我喜歡你。❤️</h1>
+    <p>我不是想給你壓力，<br>只是覺得自己的心意，應該讓你知道。</p>
+    <p class="small">如果你願意，我想慢慢認識你、陪著你。</p>
+    <div class="choices">
+      <button onclick="yes()">願意給我一個機會 💗</button>
+      <button class="secondary" id="no" onclick="nope()">我再想想</button>
+    </div>
+  </section>
+
+  <section id="yes" class="hidden message">
+    <div class="heart">🥹❤️</div>
+    <h1>謝謝你 ❤️</h1>
+    <p>那就從今天開始，<br>讓我們慢慢走近彼此吧。</p>
+    <p>不用急，我想把每一步都走得認真一點。</p>
+    <h1>❤️</h1>
+  </section>
+</main>
+
+<script>
+const heartBox=document.getElementById("hearts");
+for(let i=0;i<24;i++){
+  const s=document.createElement("span");
+  s.textContent=["♡","♥","💗","✨"][Math.floor(Math.random()*4)];
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDelay=Math.random()*7+"s";
+  s.style.animationDuration=(5+Math.random()*5)+"s";
+  s.style.fontSize=(14+Math.random()*20)+"px";
+  heartBox.appendChild(s);
+}
+function showLove(){
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("love").classList.remove("hidden");
+}
+function yes(){
+  document.getElementById("love").classList.add("hidden");
+  document.getElementById("yes").classList.remove("hidden");
+  for(let i=0;i<35;i++){
+    const s=document.createElement("span");
+    s.textContent="❤️";
+    s.style.position="fixed";
+    s.style.left=Math.random()*100+"%";
+    s.style.top=(60+Math.random()*30)+"%";
+    s.style.fontSize=(14+Math.random()*18)+"px";
+    s.style.transition="2s ease-out";
+    document.body.appendChild(s);
+    setTimeout(()=>{s.style.transform=`translateY(-${180+Math.random()*400}px) rotate(${Math.random()*180}deg)`;s.style.opacity=0},50);
+    setTimeout(()=>s.remove(),2200);
+  }
+}
+function nope(){
+  const b=document.getElementById("no");
+  b.textContent="真的不再考慮一下嗎 🥺";
+  b.style.transform=`translate(${(Math.random()*100-50)}px, ${(Math.random()*50-25)}px)`;
+}
+</script>
+</body>
+</html>
